@@ -1,10 +1,10 @@
 import prisma from "@/db/db";
 
-const PostDetails =async ({params}: {params: {id: string}}) => {
+const PostDetails =async ({params}: {params: {slug: string}}) => {
     
     const post = await prisma.post.findUnique({
         where: {
-            id: params.id
+            slug: params.slug
         }
     })
     return (
