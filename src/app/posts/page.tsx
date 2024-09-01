@@ -1,7 +1,8 @@
+import { createPost } from "@/actions/post";
 import prisma from "@/db/db";
 import Link from "next/link";
 
-const PostPage =async () => {
+const PostPage = async () => {
 
   const posts  = await prisma.post.findMany({
     where: {
@@ -16,7 +17,7 @@ const PostPage =async () => {
       title: true,
       slug: true
     },
-    take: 2,
+    take: 5,
     skip: 1
   })
 
@@ -42,6 +43,15 @@ const postCount = await prisma.post.count();
                 </div>
               ))
             }
+          </div>
+          
+          <div className="mt-5 flex flex-col justify-center items-center ">
+          <h3 className="text-3xl font-bold text-center ">Create Post</h3>
+            <form action={createPost} method="post" className="flex mt-5 flex-col gap-2 items-start">
+                <input type="text" name="title" placeholder="Type title here " className="border p-2" />
+                <input type="text" name="content" placeholder="Type content here " className="border p-2" />
+                <button type="submit" className="border bg-green-600 text-white p-2 rounded-md">Create Post</button>
+            </form>
           </div>
         </div>
     );
