@@ -12,6 +12,7 @@ const user = await prisma.user.findUnique({
     posts: true
   }
 })
+
 // const posts  = await prisma.post.findMany({
 //   where: {
 //     title: {

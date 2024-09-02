@@ -5,15 +5,15 @@ import { unstable_cache as cache } from "next/cache";
 
 const getCachedPost = cache((slug) => {
 return prisma.post.findUnique({
-    where: {
-        slug
-    }
+    where: {slug},
 })
 })
+
 
 const PostDetails =async ({params}: {params: {slug: string}}) => {
     
     const post = await getCachedPost(params.slug)
+
     return (
         <div className="text-center mt-4">
           <h3 className="text-xl">Post Details </h3>
