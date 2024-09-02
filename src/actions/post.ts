@@ -9,7 +9,12 @@ export async function createPost(formData: FormData){
         data: {
             title: formData.get('title') as string,
             slug: (formData.get('title') as string).replace(/\s+/g, "-").toLowerCase(),
-            content: formData.get('content') as string
+            content: formData.get('content') as string,
+            User: {
+                connect: {
+                    email: 'jahid@gmail.com'
+                }
+            }
         }
     })
     redirect('/posts')
