@@ -1,14 +1,19 @@
 import { deletePost } from "@/actions/post";
 import prisma from "@/db/db";
 import Link from "next/link";
+import { unstable_cache as cache } from "next/cache";
+
+const getCachedPost = cache((slug) => {
+return prisma.post.findUnique({
+    where: {
+        slug
+    }
+})
+})
 
 const PostDetails =async ({params}: {params: {slug: string}}) => {
     
-    const post = await prisma.post.findUnique({
-        where: {
-            slug: params.slug
-        }
-    })
+    const post = await getCachedPost(params.slug)
     return (
         <div className="text-center mt-4">
           <h3 className="text-xl">Post Details </h3>

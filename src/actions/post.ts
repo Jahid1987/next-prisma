@@ -1,23 +1,34 @@
 "use server"
 
 import prisma from "@/db/db"
+import { Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
 
 export async function createPost(formData: FormData){
    
-    await prisma.post.create({
-        data: {
-            title: formData.get('title') as string,
-            slug: (formData.get('title') as string).replace(/\s+/g, "-").toLowerCase(),
-            content: formData.get('content') as string,
-            User: {
-                connect: {
-                    email: 'jahid@gmail.com'
+    try {
+        await prisma.post.create({
+            data: {
+                title: formData.get('title') as string,
+                slug: (formData.get('title') as string).replace(/\s+/g, "-").toLowerCase(),
+                content: formData.get('content') as string,
+                User: {
+                    connect: {
+                        email: 'jahid@gmail.com'
+                    }
                 }
             }
+        }) 
+    } catch (error) {
+        console.log(error)
+       if(error instanceof Prisma.PrismaClientKnownRequestError){
+        if(error.code === 'P2002'){
+            console.log("Uniqe constraint violation.")
         }
-    })
-    redirect('/posts')
+       } 
+    }
+    
+    redirect('/posts') 
 }
 
  
