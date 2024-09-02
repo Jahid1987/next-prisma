@@ -1,4 +1,4 @@
-import { createPost } from "@/actions/post";
+
 import prisma from "@/db/db";
 import Link from "next/link";
 
@@ -35,23 +35,14 @@ const postCount = await prisma.post.count();
           <div className="mt-5 md:mt-10 lg:mt-20 grid grid-cols-1 md:grid-cols-2 gap-2">
             {
               posts?.map(post => (
-                <div className="flex flex-col gap-3 border p-3 rounded-md" key={post.slug}>
+                <div className="flex flex-col gap-3 justify-center items-center border p-3 rounded-md" key={post.slug}>
                 <p >{post.title} </p>
                 <Link href={`/posts/${post.slug}`}>
-                <button className="border-b-gray-500 p-2 px-4 border rounded-lg outline-none">View Details</button>
+                <button className="inline border-b-gray-500 p-2 px-4 border rounded-lg outline-none">View Details</button>
                 </Link>
                 </div>
               ))
             }
-          </div>
-          
-          <div className="mt-5 flex flex-col justify-center items-center ">
-          <h3 className="text-3xl font-bold text-center ">Create Post</h3>
-            <form action={createPost} method="post" className="flex mt-5 flex-col gap-2 items-start">
-                <input type="text" name="title" placeholder="Type title here " className="border p-2" />
-                <input type="text" name="content" placeholder="Type content here " className="border p-2" />
-                <button type="submit" className="border bg-green-600 text-white p-2 rounded-md">Create Post</button>
-            </form>
           </div>
         </div>
     );
