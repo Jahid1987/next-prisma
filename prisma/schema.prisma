@@ -60,3 +60,51 @@ model User2 {
 
   @@unique([email, address.number])
 }
+
+model Book {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  chapters Chapter[]
+}
+
+// This models are for my smart book
+model Chapter {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  shortDetails String
+  book         Book?   @relation(fields: [bookId], references: [id])
+  bookId       String? @db.ObjectId
+  topics       Topic[]
+  mcqs         Mcq[]
+  cqs          Cq[]
+}
+
+model Topic {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  details   String
+  Chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?  @db.ObjectId
+}
+
+model Mcq {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  question    String
+  answer      String
+  explanation String
+  board       String
+  year        Int
+  chapter     Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId   String?  @db.ObjectId
+}
+
+model Cq {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  question    String
+  answer      String
+  explanation String
+  board       String
+  year        Int
+  Chapter     Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId   String?  @db.ObjectId
+}
